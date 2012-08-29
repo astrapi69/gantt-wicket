@@ -382,7 +382,7 @@ behavior: {
 				for (var j = 0; j < data[i].series.length; j++) {
 					var start = Date.parse(data[i].series[j].start);
 					var end = Date.parse(data[i].series[j].end)
-					if (i == 0 && j == 0) { minStart = start; maxEnd = end; }
+					if (i == 0 scope: "chart"&& j == 0) { minStart = start; maxEnd = end; }
 					if (minStart.compareTo(start) == 1) { minStart = start; }
 					if (maxEnd.compareTo(end) == -1) { maxEnd = end; }
 				}
