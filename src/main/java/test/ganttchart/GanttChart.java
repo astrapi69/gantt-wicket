@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import test.ganttchart.ajax.OnDragGanttAjaxEventBehavior;
+import test.ganttchart.ajax.OnDropGanttAjaxEventBehavior;
 import test.resource.GanttChartResourceReference;
 
 /**
@@ -47,12 +48,8 @@ public class GanttChart extends Panel {
 		if (jQueryObject == null) {
 			jQueryObject = new JQueryGanttObject();
 			jQueryObject.setElementId(this.getMarkupId());
-			jQueryObject.setOption(
-					"dataUrl",
-					"'"
-							+ getRequestCycle().urlFor(
-									new GanttChartResourceReference(), null)
-							+ "'");
+			jQueryObject.setOption("dataUrl", "'" + getRequestCycle().urlFor(new GanttChartResourceReference(), null)
+					+ "'");
 			jQueryObject.setOption("slideWidth", "900");
 		}
 		// add behavior
@@ -62,10 +59,18 @@ public class GanttChart extends Panel {
 			private static final long serialVersionUID = 406625187849204593L;
 
 			@Override
-			protected void onDrag(AjaxRequestTarget target, Date startDate,
-					Date endDate, int scheduleId) {
-				LOG.debug("onDrag:: startDate={}, endDate={}, scheduleId={}",
-						new Object[] { startDate, endDate, scheduleId });
+			protected void onDrag(AjaxRequestTarget target, Date startDate, Date endDate, int scheduleId) {
+				LOG.debug("onDrag:: startDate={}, endDate={}, scheduleId={}", new Object[] { startDate, endDate,
+						scheduleId });
+			}
+		});
+		add(new OnDropGanttAjaxEventBehavior(jQueryObject) {
+			private static final long serialVersionUID = -7387654777626061704L;
+
+			@Override
+			protected void onDrop(AjaxRequestTarget target, int coiId) {
+				LOG.debug("onDrop:: coiId={}", new Object[] { coiId });
+				target.add(GanttChart.this);
 			}
 		});
 	}

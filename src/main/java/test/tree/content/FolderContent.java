@@ -16,25 +16,90 @@
 package test.tree.content;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.odlabs.wiquery.ui.draggable.DraggableBehavior;
+import org.odlabs.wiquery.ui.draggable.DraggableRevert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import test.ganttchart.GanttChart;
 import wickettree.AbstractTree;
 import wickettree.content.Folder;
+import de.brueckner.mms.businessdefact.data.CustomerOrderItem;
 
 /**
  * @param <T>
  */
-public class FolderContent<T> extends Content<T> {
+public abstract class FolderContent<T> extends Content<T> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOG = LoggerFactory.getLogger(GanttChart.class);
 
-    @Override
-    public Component newContentComponent(String id, final AbstractTree<T> tree, IModel<T> model) {
-        return new Folder<T>(id, tree, model) {
-            @Override
-            protected IModel<?> newLabelModel(IModel<T> tiModel) {
-                return new PropertyModel<String>(tiModel, "key");
-            }
-        };
-    }
+	/**
+	 * Add custom code to be run on valid folder dropping.
+	 * 
+	 * @param ajaxRequestTarget
+	 */
+	public abstract void onDropFolder(AjaxRequestTarget ajaxRequestTarget);
+
+	@Override
+	public Component newContentComponent(String id, final AbstractTree<T> tree, IModel<T> model) {
+		Folder<T> folder = new Folder<T>(id, tree, model) {
+			@Override
+			protected IModel<?> newLabelModel(IModel<T> tiModel) {
+				return new PropertyModel<String>(tiModel, "key");
+			}
+
+			@Override
+			protected void onBeforeRender() {
+				if (isEnabledInHierarchy() && !isClickable()) {
+					setMarkupId("" + ((CustomerOrderItem) getDefaultModelObject()).getId());
+
+					// add draggable behavior to label
+					DraggableBehavior draggableBehavior = new DraggableBehavior();
+					// DraggableAjaxBehavior draggableBehavior = new
+					// DraggableAjaxBehavior(DraggableEvent.STOP) {
+					//
+					// @Override
+					// public void onDrag(Component draggedComponent,
+					// AjaxRequestTarget ajaxRequestTarget) {
+					// // TODO Auto-generated method stub
+					//
+					// }
+					//
+					// @Override
+					// public void onStart(Component draggedComponent,
+					// AjaxRequestTarget ajaxRequestTarget) {
+					// // TODO Auto-generated method stub
+					//
+					// }
+					//
+					// @Override
+					// public void onStop(Component draggedComponent,
+					// AjaxRequestTarget ajaxRequestTarget) {
+					// // TODO Auto-generated method stub
+					//
+					// }
+					//
+					// public void onValid(Component draggedComponent,
+					// AjaxRequestTarget ajaxRequestTarget) {
+					// LOG.debug("onValid:: draggedComponent={}",
+					// draggedComponent);
+					// // add custom code to be run on valid folder
+					// // dropping
+					// onDropFolder(ajaxRequestTarget);
+					// }
+					// };
+					draggableBehavior.setScope("chart");
+					draggableBehavior.setRevert(new DraggableRevert(Boolean.TRUE));
+					this.add(draggableBehavior);
+				}
+				// call super
+				super.onBeforeRender();
+			}
+		};
+		return folder;
+	}
 }

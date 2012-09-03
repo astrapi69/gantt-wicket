@@ -268,19 +268,19 @@ behavior: {
 		function apply() {
 			
 			if (opts.behavior.clickable) { 
-            	bindBlockClick(div, opts.behavior.onClick); 
+            	bindBlockClick(div, opts.onClick); 
         	}
         	
             if (opts.behavior.resizable) { 
-            	bindBlockResize(div, opts.cellWidth, opts.start, opts.behavior.onResize); 
+            	bindBlockResize(div, opts.cellWidth, opts.start, opts.onResize); 
         	}
             
             if (opts.behavior.draggable) { 
-            	bindBlockDrag(div, opts.cellWidth, opts.start, opts.behavior.onDrag); 
+            	bindBlockDrag(div, opts.cellWidth, opts.start, opts.onDrag); 
         	}
 			
 			if (opts.behavior.droppable) { 
-            	bindBlockDrop(div, opts.cellWidth, opts.start, opts.behavior.onDrop); 
+            	bindBlockDrop(div, opts.cellWidth, opts.start, opts.onDrop); 
         	}
 		}
 
@@ -317,10 +317,8 @@ behavior: {
 		function bindBlockDrop(div, cellWidth, startDate, callback) {
         	jQuery("div.ganttview-block-container", div).droppable({
 				scope: "chart",
-				drop: function( event, ui ) {
-					var block = jQuery("div.ganttview-block", this);
-        				updateDataAndPosition(div, block, cellWidth, startDate);
-        				if (callback) { callback(block.data("block-data")); }        		
+				drop: function(event, ui) {
+					if (callback) { callback(ui.draggable.attr('id')); }        		
 				}
 			});
         }

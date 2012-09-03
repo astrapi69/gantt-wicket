@@ -5,5 +5,5 @@ package test.ajax;
  */
 public enum EventName {
 
-	onDrag;
+    onDrag, onDrop;
 }
