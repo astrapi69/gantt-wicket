@@ -3,7 +3,8 @@ package test.ganttchart;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AbstractDefaultAjaxBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 
 /**
  * User: Mircea Gaceanu
@@ -21,9 +22,8 @@ public class JQueryGanttBehaviour extends AbstractDefaultAjaxBehavior {
 
 	@Override
 	public void renderHead(Component component, IHeaderResponse response) {
-		// add javascript and css resources
-		response.renderOnDomReadyJavaScript(jQueryObject
-				.generateJQueryStatement(component));
+		response.render(OnDomReadyHeaderItem.forScript(jQueryObject
+				.generateJQueryStatement(component)));
 	}
 
 	@Override

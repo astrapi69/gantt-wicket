@@ -2,6 +2,7 @@ package test;
 
 import org.apache.wicket.protocol.http.WebApplication;
 
+import test.HomePage;
 import test.resource.GanttChartResourceReference;
 
 /**

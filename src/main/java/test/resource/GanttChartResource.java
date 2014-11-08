@@ -31,7 +31,19 @@ public class GanttChartResource extends AbstractResource {
 			public void writeData(Attributes attributes) {
 				attributes
 						.getResponse()
-						.write("[{\"id\": \"1\", \"name\": \"Feature 1\", \"series\": [{ \"name\": \"Planned\", \"start\": \"January 01, 2010\", \"end\": \"March 03, 2010\" },{ \"name\": \"Actual\", \"start\": \"February 02, 2010\", \"end\": \"May 05, 2010\", \"color\": \"#f0f0f0\" }]}]");
+						.write("[{\"id\": \"1\", "
+								+ "\"name\": \"Feature 2\", "
+								+ "\"series\": "
+								+ "["
+								+ "{ \"name\": \"Planned\", "
+								+ "\"start\": \"January 01, 2010\", "
+								+ "\"end\": \"January 03, 2010\" },"
+								+ "{ \"name\": \"Actual\", "
+								+ "\"start\": \"January 02, 2010\", "
+								+ "\"end\": \"January 05, 2010\", "
+								+ "\"color\": \"#f0f0f0\" }"
+								+ "]"
+								+ "}]");
 			}
 		});
 		return response;
