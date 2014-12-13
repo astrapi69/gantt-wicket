@@ -7,8 +7,6 @@
 	<!-- TODO project name -->
 	<name>quickstart</name>
 	<description></description>
-	<!-- TODO <organization> <name>company name</name> <url>company url</url> 
-		</organization> -->
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -159,11 +157,6 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>wicket-tree</id>
-			<name>Wicket-tree Repository</name>
-			<url>https://wicket-tree.googlecode.com/svn/repo</url>
 		</repository>
 	</repositories>
 
